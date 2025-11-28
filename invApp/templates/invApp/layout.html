@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Inventory App{% endblock %}</title>
@@ -11,20 +12,21 @@
     <script src="https://cdn.tailwindcss.com"></script>
 
     <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              primary: {
-                DEFAULT: '#6366f1',
-                dark: '#4f46e5',
-              },
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            DEFAULT: '#6366f1',
+                            dark: '#4f46e5',
+                        },
+                    },
+                },
             },
-          },
-        },
-      }
+        }
     </script>
 </head>
+
 <body class="bg-slate-100 min-h-screen flex flex-col">
 
     <!-- Navbar -->
@@ -41,7 +43,7 @@
                     Products
                 </a>
                 <a href="{% url 'product_create_view' %}"
-                   class="inline-flex items-center rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-white hover:bg-primary-dark shadow-sm">
+                    class="inline-flex items-center rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-white hover:bg-primary-dark shadow-sm">
                     + Add Product
                 </a>
             </div>
@@ -52,7 +54,7 @@
     {% if messages %}
     <div class="max-w-4xl mx-auto mt-4 px-4 w-full">
         {% for message in messages %}
-            <div class="mb-2 rounded-md border px-3 py-2 text-sm
+        <div class="mb-2 rounded-md border px-3 py-2 text-sm
                 {% if message.tags == 'success' %}
                     border-emerald-200 bg-emerald-50 text-emerald-800
                 {% elif message.tags == 'error' %}
@@ -61,8 +63,8 @@
                     border-slate-200 bg-slate-50 text-slate-800
                 {% endif %}
             ">
-                {{ message }}
-            </div>
+            {{ message }}
+        </div>
         {% endfor %}
     </div>
     {% endif %}
@@ -75,12 +77,23 @@
     </main>
 
     <!-- Footer -->
-    <footer class="mt-8 border-t bg-white">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 text-xs text-slate-500 flex justify-between">
-            <span>&copy; {% now "Y" %} InventoryApp.</span>
-            <span>Built with Django & Tailwind</span>
+    <footer class="mt-12 border-t bg-white">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div class="flex flex-col sm:flex-row justify-between items-center text-sm text-slate-600">
+                <div>
+                    &copy; {% now "Y" %} <span class="font-semibold">InventoryPro</span>. All rights reserved.
+                </div>
+                <div class="mt-3 sm:mt-0 text-center sm:text-right">
+                    Built with ❤️ by
+                    <a href="https://drewremote.xyz" target="_blank" rel="noopener noreferrer"
+                        class="font-bold text-indigo-600 hover:text-indigo-800 hover:underline transition">
+                        DREWW
+                    </a>
+                    <span class="hidden sm:inline"> • Powered by Django & Tailwind</span>
+                </div>
+            </div>
         </div>
     </footer>
-
 </body>
+
 </html>
