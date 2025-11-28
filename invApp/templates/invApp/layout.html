@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Inventory App{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    {% load static %}
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: {
+                DEFAULT: '#6366f1',
+                dark: '#4f46e5',
+              },
+            },
+          },
+        },
+      }
+    </script>
+</head>
+<body class="bg-slate-100 min-h-screen flex flex-col">
+
+    <!-- Navbar -->
+    <header class="bg-white shadow-sm">
+        <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+            <a href="{% url 'home_view' %}" class="text-xl font-semibold text-slate-800">
+                Inventory<span class="text-primary">App</span>
+            </a>
+            <div class="flex items-center gap-4">
+                <a href="{% url 'home_view' %}" class="text-sm text-slate-600 hover:text-primary">
+                    Dashboard
+                </a>
+                <a href="{% url 'product_list_view' %}" class="text-sm text-slate-600 hover:text-primary">
+                    Products
+                </a>
+                <a href="{% url 'product_create_view' %}"
+                   class="inline-flex items-center rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-white hover:bg-primary-dark shadow-sm">
+                    + Add Product
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Messages -->
+    {% if messages %}
+    <div class="max-w-4xl mx-auto mt-4 px-4 w-full">
+        {% for message in messages %}
+            <div class="mb-2 rounded-md border px-3 py-2 text-sm
+                {% if message.tags == 'success' %}
+                    border-emerald-200 bg-emerald-50 text-emerald-800
+                {% elif message.tags == 'error' %}
+                    border-red-200 bg-red-50 text-red-800
+                {% else %}
+                    border-slate-200 bg-slate-50 text-slate-800
+                {% endif %}
+            ">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Main content -->
+    <main class="flex-1 w-full">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-8 border-t bg-white">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 text-xs text-slate-500 flex justify-between">
+            <span>&copy; {% now "Y" %} InventoryApp.</span>
+            <span>Built with Django & Tailwind</span>
+        </div>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,24 @@
+{% extends "invApp/layout.html" %}
+
+{% block title %}Delete Product | Inventory App{% endblock %}
+
+{% block content %}
+<div class="max-w-lg mx-auto">
+    <div class="bg-white rounded-xl shadow-sm border p-6">
+
+        <h1 class="text-xl font-semibold mb-3">Delete Product</h1>
+        <p class="text-sm text-slate-600 mb-4">
+            Are you sure you want to delete <strong>{{ product.name }}</strong> (SKU: {{ product.sku }})?
+        </p>
+
+        <form method="post" class="flex justify-between">
+            {% csrf_token %}
+            <a href="{% url 'product_list_view' %}" class="text-sm text-slate-500 hover:text-slate-700">Cancel</a>
+            <button type="submit"
+                    class="bg-red-600 text-white px-4 py-2 rounded-md text-sm hover:bg-red-700">
+                Delete
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}
