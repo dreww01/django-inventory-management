@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+from django.templatetags.static import static
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,11 +28,18 @@ SECRET_KEY = 'django-insecure-+6!2*re5!t^i)%2@nnc_x!bog+n4obc(4az-sjntmwhf$xoz3+
 DEBUG = True
 
 ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    "unfold",
+    "unfold.contrib.filters",       # optional
+    "unfold.contrib.forms",         # optional
+    "unfold.contrib.inlines",       # optional
+    "unfold.contrib.guardian",      # optional
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,6 +49,8 @@ INSTALLED_APPS = [
     "crispy_forms",
     "crispy_tailwind",
     "invApp",
+    'auth_app',
+
 ]
 
 MIDDLEWARE = [
@@ -117,7 +128,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -126,3 +143,22 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
 CRISPY_TEMPLATE_PACK = "tailwind"
+
+# auth_app.urls
+LOGIN_URL = 'login'              # name from auth_app.urls
+LOGIN_REDIRECT_URL = 'home' # after successful login
+LOGOUT_REDIRECT_URL = 'login'    # after logout (optional)
+
+UNFOLD = {
+    "SITE_TITLE": "Inventory Admin",
+    "SITE_HEADER": "Inventory Management",
+    "SITE_SUBHEADER": "Internal dashboard for products & users",
+
+    "SITE_LOGO": {
+        "light": lambda request: static("img/logo-dark.png"),
+        "dark": lambda request: static("img/logo-light.png"),
+    },
+
+    "SITE_LOGO_WIDTH": "140px",
+}
+

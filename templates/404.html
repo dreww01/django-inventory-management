@@ -1,0 +1,24 @@
+<!-- templates/404.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Page not found</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-slate-100 min-h-screen flex items-center justify-center">
+    <div class="bg-white shadow-lg rounded-xl p-8 max-w-md text-center">
+        <h1 class="text-3xl font-bold text-slate-800 mb-2">404</h1>
+        <p class="text-sm text-slate-500 mb-4">
+            The page you’re looking for doesn’t exist or has been moved.
+        </p>
+        <a href="{% url 'home_view' %}"
+            class="inline-flex items-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-black hover:bg-primary-dark hover:underline">
+            Go back to dashboard
+        </a>
+    </div>
+</body>
+
+</html>

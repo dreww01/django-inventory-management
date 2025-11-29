@@ -51,15 +51,36 @@ wheels = [
 ]
 
 [[package]]
-name = "faker"
-version = "38.2.0"
+name = "django-grappelli"
+version = "4.0.3"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/c3/10/618d057a68602918b0605e8a8fac87c52dfeed7360a1425a985677aed9b3/django_grappelli-4.0.3.tar.gz", hash = "sha256:90f53247d51a588a0553563fd85b6620b6b30c4f7969860ec325bfb97c2609df", size = 11063421, upload-time = "2025-11-27T16:19:42.603Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/95/c2/446eaf4fe74267d32f1179d2199ee0103d5a139185d651aa506b1677816c/django_grappelli-4.0.3-py2.py3-none-any.whl", hash = "sha256:6d7ee985f51e8a61c4ac108a13d24ee340626ca0e9f2fd415958a3ea264db761", size = 1824922, upload-time = "2025-11-27T16:19:46.056Z" },
+]
+
+[[package]]
+name = "django-jazzmin"
+version = "3.0.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "tzdata" },
+    { name = "django" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/64/27/022d4dbd4c20567b4c294f79a133cc2f05240ea61e0d515ead18c995c249/faker-38.2.0.tar.gz", hash = "sha256:20672803db9c7cb97f9b56c18c54b915b6f1d8991f63d1d673642dc43f5ce7ab", size = 1941469, upload-time = "2025-11-19T16:37:31.892Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/84/96/21b6255e90d92a3eb4e93bea9376635d54258e0353ebb913a55e40ae9254/django_jazzmin-3.0.1.tar.gz", hash = "sha256:67ae148bade41267a09ca8e4352ddefa6121795ebbac238bb9a6564ff841eb1b", size = 2053550, upload-time = "2024-10-08T17:40:59.771Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/17/93/00c94d45f55c336434a15f98d906387e87ce28f9918e4444829a8fda432d/faker-38.2.0-py3-none-any.whl", hash = "sha256:35fe4a0a79dee0dc4103a6083ee9224941e7d3594811a50e3969e547b0d2ee65", size = 1980505, upload-time = "2025-11-19T16:37:30.208Z" },
+    { url = "https://files.pythonhosted.org/packages/ad/5b/2f8c4b168e6c41bf1e4b14d787deb23d80f618f0693db913bbe208a4a907/django_jazzmin-3.0.1-py3-none-any.whl", hash = "sha256:12a0a4c1d4fd09c2eef22acf6a1f03112b515ba695c59faa8ea80efc81c1f21b", size = 2125957, upload-time = "2024-10-08T17:40:57.359Z" },
+]
+
+[[package]]
+name = "django-unfold"
+version = "0.72.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "django" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/55/e6/045b68207d8b4b395623d39d803e6566ea2c110e56665e3ff6bda07de6aa/django_unfold-0.72.0.tar.gz", hash = "sha256:43a0e8a4383037a24b73666c9f721faef12bd500c4628b4fc39d0dafd2e9c0a2", size = 1102339, upload-time = "2025-11-24T09:03:47.347Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/2d/dd/6cdb80d5d377f2bdf3b39b639025bb8655b96fac08aa3673ae1e4b3e3384/django_unfold-0.72.0-py3-none-any.whl", hash = "sha256:61448ad42ff7a33c7ad66d14071b24224bb476038a14a1bbe719a774db496e34", size = 1215396, upload-time = "2025-11-24T09:03:45.568Z" },
 ]
 
 [[package]]
@@ -70,7 +91,9 @@ dependencies = [
     { name = "crispy-tailwind" },
     { name = "django" },
     { name = "django-crispy-forms" },
-    { name = "faker" },
+    { name = "django-grappelli" },
+    { name = "django-jazzmin" },
+    { name = "django-unfold" },
 ]
 
 [package.metadata]
@@ -78,7 +101,9 @@ requires-dist = [
     { name = "crispy-tailwind", specifier = ">=1.0.3" },
     { name = "django", specifier = ">=5.2.8" },
     { name = "django-crispy-forms", specifier = ">=2.5" },
-    { name = "faker", specifier = ">=38.2.0" },
+    { name = "django-grappelli", specifier = ">=4.0.3" },
+    { name = "django-jazzmin", specifier = ">=3.0.1" },
+    { name = "django-unfold", specifier = ">=0.72.0" },
 ]
 
 [[package]]

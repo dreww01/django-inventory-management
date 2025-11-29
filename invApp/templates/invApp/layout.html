@@ -31,15 +31,44 @@
 
     <!-- Navbar -->
     <header class="bg-white shadow-sm">
-        <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
-            <a href="{% url 'home_view' %}" class="text-xl font-semibold text-slate-800">
-                Inventory<span class="text-primary">App</span>
-            </a>
-            <div class="flex items-center gap-4">
-                <a href="{% url 'home_view' %}" class="text-sm text-slate-600 hover:text-primary">
+        <nav
+            class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+
+            <!-- Left: Logo / Brand -->
+            <div class="flex items-center justify-between sm:justify-start gap-4">
+                <a href="{% url 'home_view' %}" class="text-xl font-semibold text-slate-800">
+                    Inventory<span class="text-primary">App</span>
+                </a>
+
+                <!-- Mobile auth quick actions -->
+                <div class="flex items-center gap-3 sm:hidden">
+                    {% if user.is_authenticated %}
+                    <span class="text-xs text-slate-600">
+                        Hi, <span class="font-semibold">{{ user.get_username }}</span>
+                    </span>
+                    <!-- Mobile Logout: open modal, not form POST -->
+                    <button type="button" onclick="openLogoutModal()"
+                        class="text-xs bg-red-600 hover:bg-red-700 text-white px-3 py-1.5 rounded-md font-medium">
+                        Logout
+                    </button>
+                    {% else %}
+                    <a href="{% url 'login' %}" class="text-xs text-slate-600 hover:text-primary">
+                        Login
+                    </a>
+                    <a href="{% url 'register' %}"
+                        class="text-xs bg-primary text-white px-3 py-1 rounded-md hover:bg-primary-dark">
+                        Register
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Middle: Main navigation -->
+            <div class="flex items-center gap-4 text-sm text-slate-600">
+                <a href="{% url 'home_view' %}" class="hover:text-primary">
                     Dashboard
                 </a>
-                <a href="{% url 'product_list_view' %}" class="text-sm text-slate-600 hover:text-primary">
+                <a href="{% url 'product_list_view' %}" class="hover:text-primary">
                     Products
                 </a>
                 <a href="{% url 'product_create_view' %}"
@@ -47,8 +76,32 @@
                     + Add Product
                 </a>
             </div>
+
+            <!-- Right: Auth (desktop) -->
+            <div class="hidden sm:flex items-center gap-4">
+                {% if user.is_authenticated %}
+                <span class="text-sm text-slate-700">
+                    Hello, <span class="font-semibold">{{ user.get_username }}</span>
+                </span>
+                <!-- This button ONLY opens the modal -->
+                <button type="button" onclick="openLogoutModal()"
+                    class="text-sm bg-red-600 hover:bg-red-700 text-white px-4 py-1.5 rounded-md font-medium">
+                    Logout
+                </button>
+                {% else %}
+                <a href="{% url 'login' %}" class="text-sm text-slate-600 hover:text-primary">
+                    Login
+                </a>
+                <a href="{% url 'register' %}"
+                    class="text-sm bg-primary text-white px-4 py-1.5 rounded-md font-medium hover:bg-primary-dark">
+                    Register
+                </a>
+                {% endif %}
+            </div>
+
         </nav>
     </header>
+
 
     <!-- Messages -->
     {% if messages %}
@@ -94,6 +147,44 @@
             </div>
         </div>
     </footer>
+
+    <!-- Logout Modal -->
+    <div id="logoutModal" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+        <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-sm">
+            <h2 class="text-lg font-semibold text-slate-800">Confirm Logout</h2>
+            <p class="text-sm text-slate-600 mt-2">Are you sure you want to log out?</p>
+
+            <div class="flex justify-end gap-3 mt-6">
+                <button type="button" onclick="closeLogoutModal()"
+                    class="px-4 py-2 text-sm bg-slate-200 hover:bg-slate-300 rounded-md">
+                    Cancel
+                </button>
+
+                <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="px-4 py-2 text-sm bg-red-600 hover:bg-red-700 text-white rounded-md">
+                        Logout
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openLogoutModal() {
+            const modal = document.getElementById("logoutModal");
+            if (modal) {
+                modal.classList.remove("hidden");
+            }
+        }
+        function closeLogoutModal() {
+            const modal = document.getElementById("logoutModal");
+            if (modal) {
+                modal.classList.add("hidden");
+            }
+        }
+    </script>
+
 </body>
 
 </html>

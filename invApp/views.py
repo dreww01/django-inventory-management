@@ -1,22 +1,20 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+
 from .models import Product
 from .forms import ProductForm
 
-# Create your views here.
-# this is where we create CRUD logic -- CRUD -- create, read, update, delete
 
-# home view
-# def home_view(request):
-#     return render(request, 'invApp/home.html')
-
+# Home / dashboard view – per user
+@login_required
 def home_view(request):
-    total_products = Product.objects.count()
-    
-    low_stock = Product.objects.filter(quantity__lte=10).count()      # less than or equal to 10 = low
-    out_of_stock = Product.objects.filter(quantity=0).count()          # exactly 0
+    user_products = Product.objects.filter(owner=request.user)
 
-    latest_products = Product.objects.order_by('-Product_id')[:8]              # last 8 added
+    total_products = user_products.count()
+    low_stock = user_products.filter(quantity__lte=10).count()
+    out_of_stock = user_products.filter(quantity=0).count()
+    latest_products = user_products.order_by('-Product_id')[:8]
 
     context = {
         'total_products': total_products,
@@ -26,60 +24,56 @@ def home_view(request):
     }
     return render(request, 'invApp/home.html', context)
 
-# create view-- creates the product
+
+# Create view – creates a product for the logged-in user
+@login_required
 def product_create_view(request):
-    # instantiate your form from the roduct form
     form = ProductForm()
+
     if request.method == 'POST':
         form = ProductForm(request.POST)
-        # check if the form data is valid
         if form.is_valid():
-            form.save()
+            product = form.save(commit=False)   # do not save yet
+            product.owner = request.user        # attach owner
+            product.save()                      # now save
             messages.success(request, 'Product created!')
             return redirect('product_list_view')
-    context = {
-        'form': form
-    }
-    return render(request, 'invApp/product_form.html', context)
+
+    return render(request, 'invApp/product_form.html', {'form': form})
 
 
-# read view-- view all products
+# List view – only this user's products
+@login_required
 def product_list_view(request):
-    if request.method == 'GET':
-        products = Product.objects.all()
-        context = {
-            'products': products
-        }
-        return render(request, 'invApp/product_list.html', context)
+    products = Product.objects.filter(owner=request.user)
+    return render(request, 'invApp/product_list.html', {'products': products})
 
 
-# update view
-# we need to target the products by the product id-- pk
+# Update view – only allow editing products owned by this user
+@login_required
 def product_update_view(request, pk):
-    # get all products
-    product = Product.objects.get(pk=pk)
-    form = ProductForm(instance=product)
+    product = get_object_or_404(Product, pk=pk, owner=request.user)
+
     if request.method == 'POST':
-        # if form is written then update the product
         form = ProductForm(request.POST, instance=product)
-        # check if the form data is valid, then save
         if form.is_valid():
             form.save()
             messages.success(request, 'Product updated!')
             return redirect('product_list_view')
-    context = {
-        'form': form
-    }
-    # if from is empty(!=POST), render the form
-    return render(request, 'invApp/product_form.html', context)
+    else:
+        form = ProductForm(instance=product)
+
+    return render(request, 'invApp/product_form.html', {'form': form})
 
 
-
-# delete view-- pk=primary key
+# Delete view – only allow deleting products owned by this user
+@login_required
 def product_delete_view(request, pk):
-    product = Product.objects.get(pk=pk)
+    product = get_object_or_404(Product, pk=pk, owner=request.user)
+
     if request.method == 'POST':
         product.delete()
         messages.success(request, 'Product deleted!')
         return redirect('product_list_view')
+
     return render(request, 'invApp/product_confirm_delete.html', {'product': product})
